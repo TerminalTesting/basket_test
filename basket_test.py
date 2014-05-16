@@ -20,7 +20,7 @@ class BasketTest(unittest.TestCase):
     CITY_DOMAIN = (os.getenv('CITY_DOMAIN')).decode('utf-8', 'ignore')
     ADRESS = 'http://%s.%s/' % (CITY_DOMAIN, os.getenv('SITE_DOMAIN'))
     CONNECT_STRING = 'mysql://%s:%s@%s:%s/%s?charset=utf8' %(USER, PSWD, HOST, PORT, SCHEMA)
-    engine = create_engine(CONNECT_STRING, echo=False) #Значение False параметра echo убирает отладочную информацию(запросы)
+    engine = create_engine(CONNECT_STRING, echo=False) #Значение False параметра echo убирает отладочную информацию
     metadata = MetaData(engine)
     session = create_session(bind = engine)
 
