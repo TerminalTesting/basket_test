@@ -71,7 +71,7 @@ class BasketTest(unittest.TestCase):
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 5).\
                filter(Goods_price.price_type_guid == Region.price_type_guid).\
-               filter(Goods_price.price_supplier != 0).\
+               filter(Goods_price != 0).\
                filter('t_goods_remains.%s > 0' % store_shop).\
                limit(8).all()#_supplier
             
