@@ -31,8 +31,12 @@ class BasketTest(unittest.TestCase):
               filter(Shops.flag_store_shop_kbt == 1).\
               filter(Region.domain == CITY_DOMAIN).\
               first()
-    if store_shop != False:
+    if store_shop != None:
         store_shop = store_shop[0]
+    else:
+        store_shop = self.session.query(Shops.db_sort_field).\
+                         filter(Shops.id == self.session.query(Region.supplier_id).filter(Region.domain == CITY_DOMAIN).first()[0]).\
+                         first()[0]
         
     item_mgt = session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\

@@ -48,6 +48,7 @@ class Region( Base ):
     name=Column( Unicode)
     domain=Column( Unicode)
     price_type_guid=Column( String())
+    supplier_id = Column( Integer )
 
 class Shops( Base ):
     """Магазины региона"""
