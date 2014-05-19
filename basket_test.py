@@ -66,14 +66,10 @@ class BasketTest(unittest.TestCase):
     item_post = session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
-               join(Goods_price, Goods.id == Goods_price.goods_id ).\
                join(Remains, Remains.goods_id == Goods.id).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 5).\
-               filter(Goods_price.price_type_guid == Region.price_type_guid).\
-               filter(Goods_price != 0).\
-               filter('t_goods_remains.%s > 0' % store_shop).\
-               limit(8).all()#_supplier
+               limit(8).all()
             
     def tearDown(self):
         """ Удаление переменных для всех тестов. Остановка приложения """
