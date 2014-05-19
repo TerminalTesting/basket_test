@@ -25,11 +25,11 @@ class BasketTest(unittest.TestCase):
     session = create_session(bind = engine)
 
     #ищем магазин - склад
-    store_shop = self.session.query(Shops.db_sort_field).\
+    store_shop = session.query(Shops.db_sort_field).\
               join(Region, Shops.city_id == Region.id).\
               filter(Shops.active == 1).\
               filter(Shops.flag_store_shop_kbt == 1).\
-              filter(Region.domain == self.CITY_DOMAIN).\
+              filter(Region.domain == CITY_DOMAIN).\
               first()
     if store_shop != False:
         store_shop = store_shop[0][0]
