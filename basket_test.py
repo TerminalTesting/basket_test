@@ -32,7 +32,7 @@ class BasketTest(unittest.TestCase):
               filter(Region.domain == CITY_DOMAIN).\
               first()
     if store_shop != False:
-        store_shop = store_shop[0][0]
+        store_shop = store_shop[0]
         
     item_mgt = session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
