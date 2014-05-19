@@ -53,6 +53,7 @@ class Shops( Base ):
     """Магазины региона"""
     __tablename__="t_shops"#, metadata,
     id=Column(Integer, primary_key=True)
+    active = Column(Integer)
     city_id=Column(Integer, ForeignKey('t_cities.id'))
     flag_no_self_delivery_kbt = Column( Integer)
     flag_no_self_delivery = Column( Integer)
