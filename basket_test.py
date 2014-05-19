@@ -24,17 +24,29 @@ class BasketTest(unittest.TestCase):
     metadata = MetaData(engine)
     session = create_session(bind = engine)
 
+    #ищем магазин - склад
+    store_shop = self.session.query(Shops.db_sort_field).\
+              join(Region, Shops.city_id == Region.id).\
+              filter(Shops.active == 1).\
+              filter(Shops.flag_store_shop_kbt == 1).\
+              filter(Region.domain == self.CITY_DOMAIN).\
+              first()
+    if store_shop != False:
+        store_shop = store_shop[0][0]
+        
     item_mgt = session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Goods_block, Goods.block_id == Goods_block.id).\
                join(Goods_price, Goods.id == Goods_price.goods_id ).\
+               join(Remains, Remains.goods_id == Goods.id).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 1).\
                filter(Goods.overall_type == 0).\
                filter(Goods_block.delivery_type == 1).\
                filter(Goods_price.price_type_guid == Region.price_type_guid).\
                filter(Goods_price.price > 2000).\
+               filter('t_goods_remains.%s > 0' % store_shop).\
                limit(8).all()
         
     item_kgt = session.query(Goods).\
@@ -42,21 +54,25 @@ class BasketTest(unittest.TestCase):
                join(Region, Goods_stat.city_id == Region.id).\
                join(Goods_block, Goods.block_id == Goods_block.id).\
                join(Goods_price, Goods.id == Goods_price.goods_id ).\
+               join(Remains, Remains.goods_id == Goods.id).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 1).\
                filter(or_(Goods.overall_type == 2, Goods_block.delivery_type == 2)).\
                filter(Goods_price.price_type_guid == Region.price_type_guid).\
                filter(Goods_price.price != 0).\
+               filter('t_goods_remains.%s > 0' % store_shop).\
                limit(8).all()
 
     item_post = session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Goods_price, Goods.id == Goods_price.goods_id ).\
+               join(Remains, Remains.goods_id == Goods.id).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 5).\
                filter(Goods_price.price_type_guid == Region.price_type_guid).\
                filter(Goods_price.price_supplier != 0).\
+               filter('t_goods_remains.%s > 0' % store_shop).\
                limit(8).all()#_supplier
             
     def tearDown(self):
@@ -182,11 +198,7 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.fill_a_form()
-                deliv = self.driver.find_element_by_class_name('deliv').find_element_by_class_name('dfleft')
-                deliv = deliv.find_element_by_tag_name('span')
-                deliv.click()
-                deliv = self.driver.find_element_by_class_name('deliveryDescription')
-                deliv.click()
+                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
                 self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
@@ -264,11 +276,7 @@ class BasketTest(unittest.TestCase):
                 self.browser_start(auth=True)
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
-                deliv = self.driver.find_element_by_class_name('deliv').find_element_by_class_name('dfleft')
-                deliv = deliv.find_element_by_tag_name('span')
-                deliv.click()
-                deliv = self.driver.find_element_by_class_name('deliveryDescription')
-                deliv.click()
+                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
@@ -345,11 +353,7 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.fill_a_form()
-                deliv = self.driver.find_element_by_class_name('deliv').find_element_by_class_name('dfleft')
-                deliv = deliv.find_element_by_tag_name('span')
-                deliv.click()
-                deliv = self.driver.find_element_by_class_name('deliveryDescription')
-                deliv.click()
+                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
                 self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
@@ -424,11 +428,7 @@ class BasketTest(unittest.TestCase):
                 self.browser_start(term = True, auth = True)
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
-                deliv = self.driver.find_element_by_class_name('deliv').find_element_by_class_name('dfleft')
-                deliv = deliv.find_element_by_tag_name('span')
-                deliv.click()
-                deliv = self.driver.find_element_by_class_name('deliveryDescription')
-                deliv.click()
+                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')

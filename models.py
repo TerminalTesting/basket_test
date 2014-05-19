@@ -62,6 +62,7 @@ class Shops( Base ):
 
 class Remains( Base ):
     __tablename__="t_goods_remains"#, metadata,
+    goods_id = Column(Integer, ForeignKey('t_goods.id'), primary_key=True )
 
 class Goods_price( Base ):
     """ Цены товара """
