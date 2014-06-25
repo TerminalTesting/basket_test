@@ -94,7 +94,7 @@ class BasketTest(unittest.TestCase):
 
         if auth:
             self.driver.get('%slogin/' % self.ADRESS)
-            time.sleep(2)
+            time.sleep(5)
             self.driver.find_element_by_id('username').send_keys(os.getenv('AUTH'))
             self.driver.find_element_by_id('password').send_keys(os.getenv('AUPASS'))
             self.driver.find_element_by_class_name('btn-primary').click()
@@ -135,6 +135,7 @@ class BasketTest(unittest.TestCase):
         """ добавляет товар в корзину """
         
         self.driver.get('%sproduct/%s/' % (self.ADRESS, good.alias))#ссылка на карточку товара, который будет добавлен в корзину
+        time.sleep(5)
         self.driver.find_element_by_link_text('Купить').click()
         time.sleep(5)
         order_add = '%sbasket/?a=a' % self.ADRESS
@@ -163,6 +164,7 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.fill_a_form()
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
@@ -198,9 +200,11 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.fill_a_form()
+                time.sleep(5)
                 self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
                 self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
@@ -240,6 +244,7 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.get('%slogout' % self.ADRESS) ######## DO NOT FORGET TO PRESS LOGOUT ########
@@ -278,6 +283,7 @@ class BasketTest(unittest.TestCase):
                 item_cnt += 1
                 self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.get('%slogout' % self.ADRESS)
@@ -320,6 +326,7 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.fill_a_form()
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
@@ -353,9 +360,11 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.fill_a_form()
+                time.sleep(5)
                 self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
                 self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
@@ -394,6 +403,7 @@ class BasketTest(unittest.TestCase):
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.get('%slogout' % self.ADRESS) ######## DO NOT FORGET TO PRESS LOGOUT ########
@@ -430,6 +440,7 @@ class BasketTest(unittest.TestCase):
                 item_cnt += 1
                 self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
+                time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.get('%slogout' % self.ADRESS)
