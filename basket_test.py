@@ -71,8 +71,11 @@ class BasketTest(unittest.TestCase):
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Remains, Remains.goods_id == Goods.id).\
+               join(Goods_price, Goods.id == Goods_price.goods_id ).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 5).\
+               filter(Goods_price.price_type_guid == Region.price_type_guid).\
+               filter(Goods_price.price_supplier != 0).\
                limit(8).all()
             
     def tearDown(self):
