@@ -182,7 +182,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
     
@@ -213,7 +213,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
 
@@ -246,7 +246,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
 
@@ -275,7 +275,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
                  
@@ -307,7 +307,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
                
@@ -337,7 +337,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
             
@@ -369,7 +369,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
 
@@ -396,7 +396,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print item_prefs[item_cnt]
+                print self.item_prefs[item_cnt]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
             
