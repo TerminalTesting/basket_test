@@ -11,6 +11,7 @@ from sqlalchemy import or_
 
 class BasketTest(unittest.TestCase):
     """ Тест кейс для тестирования корзины """
+    os.system('find -iname \*.png -delete')
     
     HOST = os.getenv('HOST')
     PORT = os.getenv('PORT')
@@ -20,6 +21,8 @@ class BasketTest(unittest.TestCase):
     CITY_DOMAIN = (os.getenv('CITY_DOMAIN')).decode('utf-8', 'ignore')
     ADRESS = 'http://%s.%s/' % (CITY_DOMAIN, os.getenv('SITE_DOMAIN'))
     CONNECT_STRING = 'mysql://%s:%s@%s:%s/%s?charset=utf8' %(USER, PSWD, HOST, PORT, SCHEMA)
+    ARTSOURCE = '%sartifact/' % os.getenv('BUILD_URL')
+
     engine = create_engine(CONNECT_STRING, echo=False) #Значение False параметра echo убирает отладочную информацию
     metadata = MetaData(engine)
     session = create_session(bind = engine)
@@ -77,7 +80,9 @@ class BasketTest(unittest.TestCase):
                filter(Goods_price.price_type_guid == Region.price_type_guid).\
                filter(Goods_price.price_supplier != 0).\
                limit(8).all()
-            
+
+    item_prefs = {0: 'Товар с обычной габаритностью', 1: 'Крупногабаритный товар', 2: 'Товар статусом поставщика'}
+    
     def tearDown(self):
         """ Удаление переменных для всех тестов. Остановка приложения """
         if sys.exc_info()[0]:   
@@ -172,24 +177,15 @@ class BasketTest(unittest.TestCase):
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
             
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_0_0.png')
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print '-'*80
-                continue
-        
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_0_1.png')
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
                 print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
-               
-            
+    
         
         items = (self.item_mgt[1], self.item_kgt[1], self.item_post[1]) #для каждого теста беруться разные товары
         self.set_additional(items)
@@ -212,22 +208,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
 
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_0_2.png')
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - ', good.alias
-                print '-'*80
-                continue
-
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_0_3.png')
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
 
         assert stat==0, (u'Errors:%d')%(stat)
         
@@ -253,24 +241,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.get('%slogout' % self.ADRESS) ######## DO NOT FORGET TO PRESS LOGOUT ########
                 self.driver.close()
 
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_1_0.png')
-                self.driver.get('%slogout' % self.ADRESS)
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ без доставки у авт. пользователя - ', good.alias
-                print '-'*80
-                continue
-
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_1_1.png')
-                self.driver.get('%slogout' % self.ADRESS)
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у авт. пользователя - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
 
                     
         items = (self.item_mgt[3], self.item_kgt[3], self.item_post[3]) #для каждого теста беруться разные товары
@@ -292,24 +270,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.get('%slogout' % self.ADRESS)
                 self.driver.close()
 
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_1_2.png')
-                self.driver.get('%slogout' % self.ADRESS)
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ c доставкой у авт. пользователя - ', good.alias
-                print '-'*80
-                continue
-
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_1_3.png')
-                self.driver.get('%slogout' % self.ADRESS)
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ c доставкой у авт. пользователя - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
                  
         assert stat==0, (u'Errors:%d')%(stat)
 
@@ -334,22 +302,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
             
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_2_0.png')
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - терм.версия - ', good.alias
-                print '-'*80
-                continue
-
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_2_1.png')
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - терм.версия - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
                
         items = (self.item_mgt[5], self.item_kgt[5], self.item_post[5]) #для каждого теста беруться разные товары
         self.set_additional(items)
@@ -372,22 +332,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.find_element_by_class_name('order-details')
                 self.driver.close()
 
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_2_2.png')
+            except:
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - терм.версия - ', good.alias
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
-            
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_2_3.png')
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - терм.версия - ', good.alias
-                print 'Возможна ошибка логики скрипта'
-                print '-'*80
-                continue
             
         assert stat==0, (u'Errors:%d')%(stat)
 
@@ -412,24 +364,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.get('%slogout' % self.ADRESS) ######## DO NOT FORGET TO PRESS LOGOUT ########
                 self.driver.close()
 
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_3_0.png')
-                self.driver.get('%slogout' % self.ADRESS)
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ без доставки у авт. пользователя - терм.версия - ', good.alias
-                print '-'*80
-                continue
-
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_3_1.png')
-                self.driver.get('%slogout' % self.ADRESS)
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у авт. пользователя - терм.версия - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
 
         items = (self.item_mgt[7], self.item_kgt[7], self.item_post[7]) #для каждого теста беруться разные товары
         self.set_additional(items)
@@ -449,24 +391,14 @@ class BasketTest(unittest.TestCase):
                 self.driver.get('%slogout' % self.ADRESS)
                 self.driver.close()
 
-            except NoSuchElementException:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_3_2.png')
-                self.driver.get('%slogout' % self.ADRESS)
-                self.driver.close()
-                stat += 1
-                print 'Не получилось оформить заказ с доставкой у авт. пользователя - терм.версия - ', good.alias
-                print '-'*80
-                continue
-
             except:
-                self.driver.get_screenshot_as_file('/home/developer/BasketTest/Test_3_3.png')
-                self.driver.get('%slogout' % self.ADRESS)
+                self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ с доставкой у авт. пользователя - терм.версия - ', good.alias
-                print 'Возможна ошибка логики скрипта'
+                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print item_prefs[item_cnt]
+                print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
-                continue
             
         
         assert stat==0, (u'Errors:%d')%(stat)
