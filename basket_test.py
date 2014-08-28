@@ -159,6 +159,46 @@ class BasketTest(unittest.TestCase):
    
         """ Тестирование веб версии сайта - пользователь не авторизован """
         stat = 0
+
+        item_mgt = session.query(Goods).\
+               join(Goods_stat, Goods.id == Goods_stat.goods_id).\
+               join(Region, Goods_stat.city_id == Region.id).\
+               join(Goods_block, Goods.block_id == Goods_block.id).\
+               join(Main_goods_prices, Goods.id == Main_goods_prices.goods_id ).\
+               join(Remains, Remains.goods_id == Goods.id).\
+               filter(Region.domain == CITY_DOMAIN).\
+               filter(Goods_stat.status == 1).\
+               filter(Goods.overall_type == 0).\
+               filter(Goods_block.delivery_type == 1).\
+               filter(Main_goods_prices.price_type_guid == Region.price_type_guid).\
+               filter(Main_goods_prices.price > 2000).\
+               filter('t_goods_remains.%s > 0' % store_shop).\
+               limit(8).all()
+        
+        item_kgt = session.query(Goods).\
+               join(Goods_stat, Goods.id == Goods_stat.goods_id).\
+               join(Region, Goods_stat.city_id == Region.id).\
+               join(Goods_block, Goods.block_id == Goods_block.id).\
+               join(Main_goods_prices, Goods.id == Main_goods_prices.goods_id ).\
+               join(Remains, Remains.goods_id == Goods.id).\
+               filter(Region.domain == CITY_DOMAIN).\
+               filter(Goods_stat.status == 1).\
+               filter(or_(Goods.overall_type == 2, Goods_block.delivery_type == 2)).\
+               filter(Main_goods_prices.price_type_guid == Region.price_type_guid).\
+               filter(Main_goods_prices.price != 0).\
+               filter('t_goods_remains.%s > 0' % store_shop).\
+               limit(8).all()
+
+        item_post = session.query(Goods).\
+               join(Goods_stat, Goods.id == Goods_stat.goods_id).\
+               join(Region, Goods_stat.city_id == Region.id).\
+               join(Supplier_goods_prices, Goods.id == Supplier_goods_prices.goods_id ).\
+               join(Remains, Remains.goods_id == Goods.id).\
+               filter(Region.domain == CITY_DOMAIN).\
+               filter(Supplier_goods_prices.price_type_guid == Region.price_type_guid).\
+               filter(Supplier_goods_prices.price_supplier != 0).\
+               filter(Goods_stat.status == 5).\
+               limit(8).all()
   
         items = (self.item_mgt[0], self.item_kgt[0], self.item_post[0]) #для каждого теста беруться разные товары
         self.set_additional(items)
