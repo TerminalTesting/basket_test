@@ -160,7 +160,7 @@ class BasketTest(unittest.TestCase):
         """ Тестирование веб версии сайта - пользователь не авторизован """
         stat = 0
 
-        item_mgt = session.query(Goods).\
+        item_mgt = self.session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Goods_block, Goods.block_id == Goods_block.id).\
@@ -175,7 +175,7 @@ class BasketTest(unittest.TestCase):
                filter('t_goods_remains.%s > 0' % store_shop).\
                limit(8).all()
         
-        item_kgt = session.query(Goods).\
+        item_kgt = self.session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Goods_block, Goods.block_id == Goods_block.id).\
@@ -189,7 +189,7 @@ class BasketTest(unittest.TestCase):
                filter('t_goods_remains.%s > 0' % store_shop).\
                limit(8).all()
 
-        item_post = session.query(Goods).\
+        item_post = self.session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Supplier_goods_prices, Goods.id == Supplier_goods_prices.goods_id ).\
