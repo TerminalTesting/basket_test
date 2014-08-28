@@ -60,7 +60,7 @@ class BasketTest(unittest.TestCase):
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
                join(Goods_block, Goods.block_id == Goods_block.id).\
-               join(Main_goods_prices, Goods.id == Goods_price.goods_id ).\
+               join(Main_goods_prices, Goods.id == Main_goods_prices.goods_id ).\
                join(Remains, Remains.goods_id == Goods.id).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Goods_stat.status == 1).\
@@ -73,7 +73,7 @@ class BasketTest(unittest.TestCase):
     item_post = session.query(Goods).\
                join(Goods_stat, Goods.id == Goods_stat.goods_id).\
                join(Region, Goods_stat.city_id == Region.id).\
-               join(Supplier_goods_prices, Goods.id == Goods_price.goods_id ).\
+               join(Supplier_goods_prices, Goods.id == Supplier_goods_prices.goods_id ).\
                join(Remains, Remains.goods_id == Goods.id).\
                filter(Region.domain == CITY_DOMAIN).\
                filter(Supplier_goods_prices.price_type_guid == Region.price_type_guid).\
