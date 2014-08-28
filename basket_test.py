@@ -166,13 +166,13 @@ class BasketTest(unittest.TestCase):
                join(Goods_block, Goods.block_id == Goods_block.id).\
                join(Main_goods_prices, Goods.id == Main_goods_prices.goods_id ).\
                join(Remains, Remains.goods_id == Goods.id).\
-               filter(Region.domain == CITY_DOMAIN).\
+               filter(Region.domain == self.CITY_DOMAIN).\
                filter(Goods_stat.status == 1).\
                filter(Goods.overall_type == 0).\
                filter(Goods_block.delivery_type == 1).\
                filter(Main_goods_prices.price_type_guid == Region.price_type_guid).\
                filter(Main_goods_prices.price > 2000).\
-               filter('t_goods_remains.%s > 0' % store_shop).\
+               filter('t_goods_remains.%s > 0' % self.store_shop).\
                limit(8).all()
         
         item_kgt = self.session.query(Goods).\
@@ -181,12 +181,12 @@ class BasketTest(unittest.TestCase):
                join(Goods_block, Goods.block_id == Goods_block.id).\
                join(Main_goods_prices, Goods.id == Main_goods_prices.goods_id ).\
                join(Remains, Remains.goods_id == Goods.id).\
-               filter(Region.domain == CITY_DOMAIN).\
+               filter(Region.domain == self.CITY_DOMAIN).\
                filter(Goods_stat.status == 1).\
                filter(or_(Goods.overall_type == 2, Goods_block.delivery_type == 2)).\
                filter(Main_goods_prices.price_type_guid == Region.price_type_guid).\
                filter(Main_goods_prices.price != 0).\
-               filter('t_goods_remains.%s > 0' % store_shop).\
+               filter('t_goods_remains.%s > 0' % self.store_shop).\
                limit(8).all()
 
         item_post = self.session.query(Goods).\
@@ -194,7 +194,7 @@ class BasketTest(unittest.TestCase):
                join(Region, Goods_stat.city_id == Region.id).\
                join(Supplier_goods_prices, Goods.id == Supplier_goods_prices.goods_id ).\
                join(Remains, Remains.goods_id == Goods.id).\
-               filter(Region.domain == CITY_DOMAIN).\
+               filter(Region.domain == self.CITY_DOMAIN).\
                filter(Supplier_goods_prices.price_type_guid == Region.price_type_guid).\
                filter(Supplier_goods_prices.price_supplier != 0).\
                filter(Goods_stat.status == 5).\
