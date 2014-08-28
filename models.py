@@ -68,7 +68,7 @@ class Remains( Base ):
 
 class Main_goods_prices( Base ):
     """ Основные цены товара """
-    __tablename__='t_goods_prices_main'#, metadata,
+    __tablename__='t_goods_prices'#, metadata,
     price_type_guid=Column( String(), primary_key=True )
     goods_id =Column(Integer, primary_key=True)
     price=Column(Float)
