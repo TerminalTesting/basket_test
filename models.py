@@ -66,12 +66,18 @@ class Remains( Base ):
     __tablename__="t_goods_remains"#, metadata,
     goods_id = Column(Integer, ForeignKey('t_goods.id'), primary_key=True )
 
-class Goods_price( Base ):
-    """ Цены товара """
-    __tablename__='t_goods_prices'#, metadata,
+class Main_goods_prices( Base ):
+    """ Основные цены товара """
+    __tablename__='t_goods_prices_main'#, metadata,
     price_type_guid=Column( String(), primary_key=True )
     goods_id =Column(Integer, primary_key=True)
     price=Column(Float)
+
+class Supplier_goods_prices( Base ):
+    """ Цены поставщика """
+    __tablename__='t_goods_prices_supplier'#, metadata,
+    price_type_guid=Column( String(), primary_key=True )
+    goods_id =Column(Integer, primary_key=True)
     price_supplier=Column(Float)
      
 class Additional( Base ):
