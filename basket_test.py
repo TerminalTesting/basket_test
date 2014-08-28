@@ -23,7 +23,7 @@ class BasketTest(unittest.TestCase):
     CONNECT_STRING = 'mysql://%s:%s@%s:%s/%s?charset=utf8' %(USER, PSWD, HOST, PORT, SCHEMA)
     ARTSOURCE = '%sartifact/' % os.getenv('BUILD_URL')
 
-    engine = create_engine(CONNECT_STRING, echo=False) #Значение False параметра echo убирает отладочную информацию
+    engine = create_engine(CONNECT_STRING, echo=True) #Значение False параметра echo убирает отладочную информацию
     metadata = MetaData(engine)
     session = create_session(bind = engine)
 
