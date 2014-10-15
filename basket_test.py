@@ -100,6 +100,8 @@ class BasketTest(unittest.TestCase):
             self.driver = webdriver.Firefox()
             self.driver.get(self.ADRESS)
 
+        self.driver.implicitly_wait(5)
+
         if auth:
             self.driver.get('%slogin/' % self.ADRESS)
             time.sleep(5)
@@ -200,9 +202,14 @@ class BasketTest(unittest.TestCase):
                 item_cnt += 1
                 self.fill_a_form()
                 time.sleep(5)
-                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
-                self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
-                self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
+                try:
+                    self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
+                    self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
+                    self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
+                except:
+                    stat += 1
+                    print u'Невозможно выбрать доставку'
+                    print '-'*80
                 time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
@@ -212,7 +219,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print 'Не получилось оформить заказ c доставкой у неавт. пользователя - ', good.alias
                 print self.item_prefs[item_cnt-1]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
@@ -262,7 +269,14 @@ class BasketTest(unittest.TestCase):
                 self.browser_start(auth=True)
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
-                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
+                
+                try:
+                    self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
+                except:
+                    stat += 1
+                    print u'Невозможно выбрать доставку'
+                    print '-'*80
+                    
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
                 time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
@@ -274,7 +288,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - ', good.alias
                 print self.item_prefs[item_cnt-1]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
@@ -324,9 +338,14 @@ class BasketTest(unittest.TestCase):
                 item_cnt += 1
                 self.fill_a_form()
                 time.sleep(5)
-                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
-                self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
-                self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
+                try:
+                    self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
+                    self.driver.find_element_by_id('personal_order_form_addressStreet').send_keys('AutoTEST street')
+                    self.driver.find_element_by_id('personal_order_form_addressHouse').send_keys('AutoTEST house')
+                except:
+                    stat += 1
+                    print u'Невозможно выбрать доставку'
+                    print '-'*80
                 time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
                 self.driver.find_element_by_class_name('order-details')
@@ -336,7 +355,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - ', good.alias
                 print self.item_prefs[item_cnt-1]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
@@ -383,7 +402,12 @@ class BasketTest(unittest.TestCase):
                 self.browser_start(term = True, auth = True)
                 self.add_item_to_cart(item_cnt, good)
                 item_cnt += 1
-                self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
+                try:
+                    self.driver.find_element_by_css_selector("div.dcityContainer > span.radio").click()
+                except:
+                    stat += 1
+                    print u'Невозможно выбрать доставку'
+                    print '-'*80
                 self.driver.find_element_by_id('personal_order_form_comment').send_keys('AutoTEST ORDER')
                 time.sleep(5)
                 self.driver.find_element_by_class_name('btn-primary').click() #Покупаем товар
@@ -395,7 +419,7 @@ class BasketTest(unittest.TestCase):
                 self.driver.get_screenshot_as_file('%s.png' % good.alias)
                 self.driver.close()
                 stat += 1
-                print 'Не получилось оформить заказ без доставки у неавт. пользователя - ', good.alias
+                print 'Не получилось оформить заказ с доставкой у неавт. пользователя - ', good.alias
                 print self.item_prefs[item_cnt-1]
                 print 'Скриншот:\n', self.ARTSOURCE + '%s.png' % good.alias
                 print '-'*80
